@@ -28,6 +28,7 @@ public class MarkTasksPage extends AbstractPage {
 
     public void writeWorldForSearch(String word) {
         WaitDriverUtils.waitForVisibility(search);
+        search.click();
         search.sendKeys(word);
     }
 

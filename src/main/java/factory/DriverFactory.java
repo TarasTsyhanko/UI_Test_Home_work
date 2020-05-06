@@ -1,20 +1,17 @@
 package factory;
 
 import config.PropertyFile;
-import org.openqa.selenium.OutputType;
-import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.firefox.FirefoxDriver;
 
-import java.io.File;
 import java.util.concurrent.TimeUnit;
 
-import static config.ConfigConstants.DRIVER_WAY;
-import static config.ConfigConstants.WEB_DRIVER;
+import static config.ConfigConstants.*;
 import static java.lang.System.setProperty;
 
 public class DriverFactory {
-    private static WebDriver DRIVER ;
+    private static WebDriver DRIVER;
     private static final long implicitlyWait = 25;
 
     private static void setWait(WebDriver driver) {
@@ -23,8 +20,16 @@ public class DriverFactory {
     }
 
     public static void initDriver() {
-        setProperty(PropertyFile.getProperty(WEB_DRIVER), PropertyFile.getProperty(DRIVER_WAY));
-        WebDriver driver = new ChromeDriver();
+        String browser = System.getProperty("browser");
+        WebDriver driver = null;
+
+        if (browser != null && browser.equals("chrome")) {
+            setProperty(PropertyFile.getProperty(CHROME_WEBDRIVER), PropertyFile.getProperty(CHROME_DRIVER_WAY));
+            driver = new ChromeDriver();
+        } else {
+            setProperty(PropertyFile.getProperty(FIREFOX_WEBDRIVER), PropertyFile.getProperty(FIREFOX_DRIVER_WAY));
+            driver = new FirefoxDriver();
+        }
         driver.manage().window().maximize();
         setWait(driver);
         DRIVER = driver;
@@ -36,9 +41,10 @@ public class DriverFactory {
         }
         return DRIVER;
     }
-     public static void refresh(){
+
+    public static void refresh() {
         DRIVER.navigate().refresh();
-     }
+    }
 
     public static void quitDriver() {
         if (DRIVER != null) {

@@ -1,8 +1,10 @@
 package config;
 
 public class ConfigConstants {
-    public static final String DRIVER_WAY = "driver_way";
-    public static final String WEB_DRIVER = "webdriver";
+    public static final String CHROME_DRIVER_WAY = "chrome_driver_way";
+    public static final String FIREFOX_DRIVER_WAY = "firefox_driver_way";
+    public static final String CHROME_WEBDRIVER = "chrome_webdriver";
+    public static final String FIREFOX_WEBDRIVER = "firefox_webdriver";
     public static final String EMAIL = "email";
     public static final String PASSWORD = "password";
     public static final String WEBSITE = "website";

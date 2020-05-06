@@ -10,9 +10,9 @@ import java.util.List;
 public class JavaTaskPage extends AbstractPage {
     @FindBy(xpath = "//h3[contains(.,'Java')]//ancestor::*[@class='card-content']//*[@class='ui-text']")
     private WebElement javaTasks;
-    @FindBy(xpath = "//*[@class='label' and contains(text(),'Solved')]")
+    @FindBy(xpath = "//*[contains(text(),'Solved')]//ancestor::*[@class='label-wrap']")
     private WebElement checkSolvedTask;
-    @FindBy(xpath = "//*[@class='label' and contains(text(),'Unsolved')]")
+    @FindBy(xpath = "//*[contains(text(),'Unsolved')]//ancestor::*[@class='label-wrap']")
     private WebElement checkUnsolvedTask;
     @FindBy(xpath = "//button[@class='ui-btn ui-btn-normal primary-cta ui-btn-line-primary']//span[@class='ui-text']")
     private List<WebElement> statusTasks;
@@ -24,6 +24,10 @@ public class JavaTaskPage extends AbstractPage {
     private List<WebElement> levelOfAllTask;
     @FindBy(xpath = "//span[@class='ui-text' and contains(text(),'Solve Challenge')]")
     private List<WebElement> UnsolvedTasks;
+    @FindBy(xpath = "//span[contains(.,'Solved')]//ancestor::*[@id='contest-challenges-problem']")
+    private List<WebElement> solvedContainers;
+    @FindBy(xpath = "//span[contains(.,'Easy')]//ancestor::*[@id='contest-challenges-problem']")
+    private List<WebElement> easyContainers;
 
 
     public JavaTaskPage() {
@@ -39,10 +43,9 @@ public class JavaTaskPage extends AbstractPage {
         WaitDriverUtils.waitForClickable(checkUnsolvedTask);
         checkUnsolvedTask.click();
         DriverFactory.refresh();
-        WaitDriverUtils.waitForLoad();
         WaitDriverUtils.waitForClickable(checkSolvedTask);
         checkSolvedTask.click();
-        DriverFactory.refresh();
+        WaitDriverUtils.waitForRefreshedAllElements(solvedContainers);
     }
 
     public void invisibleUnsolvedTasks() {
@@ -52,6 +55,7 @@ public class JavaTaskPage extends AbstractPage {
     public void checkEasyTasks() {
         checkEasyTask.click();
         DriverFactory.refresh();
+        WaitDriverUtils.waitForRefreshedAllElements(easyContainers);
         WaitDriverUtils.waitForLoad();
     }
 
